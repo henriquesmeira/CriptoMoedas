@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:latest
@@ -23,6 +21,18 @@ services:
     ports:
       - "8080:8080"
 
+  dbt:
+    build: .
+    container_name: dbt_container
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: tail -f /dev/null
+    depends_on:
+      - postgres
+
 volumes:
   postgres_data:
+
+
 

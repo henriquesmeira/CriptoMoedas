@@ -1,0 +1,13 @@
+criptomoedas_profile:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost  # Ou o nome do serviço no Docker
+      user: postgres
+      password: minhasenha  # Se tiver caracteres especiais, coloque entre aspas
+      port: 5432  # Confirme se está correto no seu banco
+      dbname: criptmoedas
+      schema: public
+      threads: 4
+
