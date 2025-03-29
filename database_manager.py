@@ -46,10 +46,10 @@ def create_tables():
     create_historico_table = """
     CREATE TABLE IF NOT EXISTS historicocriptos (
         id SERIAL PRIMARY KEY,
-        crypto VARCHAR(50),
-        date TIMESTAMP,
-        priceUsd NUMERIC,
-        time BIGINT,
+        crypto TEXT,
+        date TEXT,
+        priceUsd TEXT,
+        time TEXT,
         data_captura TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """
@@ -58,12 +58,12 @@ def create_tables():
     create_cadastro_table = """
     CREATE TABLE IF NOT EXISTS cadastro (
         id SERIAL PRIMARY KEY,
-        rank INTEGER,
-        nome VARCHAR(100),
-        simbolo VARCHAR(20),
-        preco_usd NUMERIC,
-        cap_mercado_usd NUMERIC,
-        variacao_24h NUMERIC,
+        rank TEXT,
+        nome TEXT,
+        simbolo TEXT,
+        preco_usd TEXT,
+        cap_mercado_usd TEXT,
+        variacao_24h TEXT,
         data_captura TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """
@@ -72,10 +72,10 @@ def create_tables():
     create_candle_table = """
     CREATE TABLE IF NOT EXISTS candle (
         id SERIAL PRIMARY KEY,
-        crypto VARCHAR(50),
-        date TIMESTAMP,
-        priceUsd NUMERIC,
-        time BIGINT,
+        crypto TEXT,
+        date TEXT,
+        priceUsd TEXT,
+        time TEXT,
         data_captura TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """
@@ -84,18 +84,18 @@ def create_tables():
     create_volume_table = """
     CREATE TABLE IF NOT EXISTS volume (
         id SERIAL PRIMARY KEY,
-        crypto VARCHAR(50),
-        rank INTEGER,
-        symbol VARCHAR(20),
-        name VARCHAR(100),
-        supply NUMERIC,
-        maxSupply NUMERIC,
-        marketCapUsd NUMERIC,
-        volumeUsd24Hr NUMERIC,
-        priceUsd NUMERIC,
-        changePercent24Hr NUMERIC,
-        vwap24Hr NUMERIC,
-        timestamp TIMESTAMP,
+        crypto TEXT,
+        rank TEXT,
+        symbol TEXT,
+        name TEXT,
+        supply TEXT,
+        maxSupply TEXT,
+        marketCapUsd TEXT,
+        volumeUsd24Hr TEXT,
+        priceUsd TEXT,
+        changePercent24Hr TEXT,
+        vwap24Hr TEXT,
+        timestamp TEXT,
         data_captura TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """
@@ -117,10 +117,10 @@ def create_tables():
         conn.close()
         return success
 
-# Função para inserir dados de historicocriptos.py
-def insert_historico_data(df):
+# Função genérica para inserir dados em qualquer tabela
+def insert_data(df, table_name, columns):
     if df is None or df.empty:
-        print("❌ Nenhum dado de histórico para inserir.")
+        print(f"❌ Nenhum dado para inserir na tabela {table_name}.")
         return False
     
     conn = connect_db()
@@ -128,168 +128,28 @@ def insert_historico_data(df):
         return False
     
     cursor = conn.cursor()
-    insert_query = """
-    INSERT INTO historicocriptos (crypto, date, priceUsd, time)
-    VALUES (%s, %s, %s, %s)
+    
+    # Construir a query dinamicamente
+    placeholders = ', '.join(['%s'] * len(columns))
+    insert_query = f"""
+    INSERT INTO {table_name} ({', '.join(columns)})
+    VALUES ({placeholders})
     """
     
     try:
         data_to_insert = []
         for _, row in df.iterrows():
-            data_to_insert.append((
-                row['crypto'],
-                row['date'],
-                float(row['priceUsd']),
-                int(row['time'])
-            ))
+            # Converte todos os valores para string
+            values = [str(row[col]) if pd.notna(row[col]) else None for col in columns]
+            data_to_insert.append(tuple(values))
         
         cursor.executemany(insert_query, data_to_insert)
         conn.commit()
-        print(f"✅ {len(data_to_insert)} registros históricos inseridos com sucesso!")
+        print(f"✅ {len(data_to_insert)} registros inseridos com sucesso na tabela {table_name}!")
         success = True
     except Exception as e:
         conn.rollback()
-        print(f"❌ Erro ao inserir dados históricos: {e}")
-        success = False
-    finally:
-        cursor.close()
-        conn.close()
-        return success
-
-# Função para inserir dados de cadastro.py
-def insert_cadastro_data(df):
-    if df is None or df.empty:
-        print("❌ Nenhum dado de cadastro para inserir.")
-        return False
-    
-    # Limpar valores formatados para armazenar como numéricos
-    df_clean = df.copy()
-    for col in ['Preço (USD)', 'Cap. Mercado (USD)', 'Variação 24h (%)']:
-        if col in df_clean.columns:
-            if col == 'Preço (USD)' or col == 'Cap. Mercado (USD)':
-                df_clean[col] = df_clean[col].str.replace('$', '').str.replace(',', '').astype(float)
-            elif col == 'Variação 24h (%)':
-                df_clean[col] = df_clean[col].str.replace('%', '').astype(float)
-    
-    conn = connect_db()
-    if conn is None:
-        return False
-    
-    cursor = conn.cursor()
-    insert_query = """
-    INSERT INTO cadastro (rank, nome, simbolo, preco_usd, cap_mercado_usd, variacao_24h)
-    VALUES (%s, %s, %s, %s, %s, %s)
-    """
-    
-    try:
-        data_to_insert = []
-        for _, row in df_clean.iterrows():
-            data_to_insert.append((
-                row['Rank'], 
-                row['Nome'], 
-                row['Símbolo'], 
-                float(row['Preço (USD)']), 
-                float(row['Cap. Mercado (USD)']), 
-                float(row['Variação 24h (%)'])
-            ))
-        
-        cursor.executemany(insert_query, data_to_insert)
-        conn.commit()
-        print(f"✅ {len(data_to_insert)} registros de cadastro inseridos com sucesso!")
-        success = True
-    except Exception as e:
-        conn.rollback()
-        print(f"❌ Erro ao inserir dados de cadastro: {e}")
-        success = False
-    finally:
-        cursor.close()
-        conn.close()
-        return success
-
-# Função para inserir dados de candle.py
-def insert_candle_data(df):
-    if df is None or df.empty:
-        print("❌ Nenhum dado de candle para inserir.")
-        return False
-    
-    conn = connect_db()
-    if conn is None:
-        return False
-    
-    cursor = conn.cursor()
-    insert_query = """
-    INSERT INTO candle (crypto, date, priceUsd, time)
-    VALUES (%s, %s, %s, %s)
-    """
-    
-    try:
-        data_to_insert = []
-        for _, row in df.iterrows():
-            data_to_insert.append((
-                row['crypto'],
-                row['date'],
-                float(row['priceUsd']),
-                int(row['time'])
-            ))
-        
-        cursor.executemany(insert_query, data_to_insert)
-        conn.commit()
-        print(f"✅ {len(data_to_insert)} registros de candle inseridos com sucesso!")
-        success = True
-    except Exception as e:
-        conn.rollback()
-        print(f"❌ Erro ao inserir dados de candle: {e}")
-        success = False
-    finally:
-        cursor.close()
-        conn.close()
-        return success
-
-# Função para inserir dados de volume.py
-def insert_volume_data(df):
-    if df is None or df.empty:
-        print("❌ Nenhum dado de volume para inserir.")
-        return False
-    
-    conn = connect_db()
-    if conn is None:
-        return False
-    
-    cursor = conn.cursor()
-    insert_query = """
-    INSERT INTO volume (
-        crypto, rank, symbol, name, supply, maxSupply, 
-        marketCapUsd, volumeUsd24Hr, priceUsd, 
-        changePercent24Hr, vwap24Hr, timestamp
-    )
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """
-    
-    try:
-        data_to_insert = []
-        for _, row in df.iterrows():
-            data_to_insert.append((
-                row['crypto'],
-                row['rank'],
-                row['symbol'],
-                row['name'],
-                float(row['supply']),
-                float(row['maxSupply']) if pd.notna(row['maxSupply']) else None,
-                float(row['marketCapUsd']),
-                float(row['volumeUsd24Hr']),
-                float(row['priceUsd']),
-                float(row['changePercent24Hr']),
-                float(row['vwap24Hr']),
-                row['timestamp']
-            ))
-        
-        cursor.executemany(insert_query, data_to_insert)
-        conn.commit()
-        print(f"✅ {len(data_to_insert)} registros de volume inseridos com sucesso!")
-        success = True
-    except Exception as e:
-        conn.rollback()
-        print(f"❌ Erro ao inserir dados de volume: {e}")
+        print(f"❌ Erro ao inserir dados na tabela {table_name}: {e}")
         success = False
     finally:
         cursor.close()
@@ -308,22 +168,35 @@ def main():
     # Obter e inserir dados de historicocriptos.py
     print("\n📊 Processando dados de historicocriptos.py...")
     df_historico = get_historico_data()
-    insert_historico_data(df_historico)
+    insert_data(df_historico, 'historicocriptos', ['crypto', 'date', 'priceUsd', 'time'])
     
     # Obter e inserir dados de cadastro.py
     print("\n🏆 Processando dados de cadastro.py...")
     df_cadastro = get_top_cryptocurrencies(10)
-    insert_cadastro_data(df_cadastro)
+    # Renomear colunas para corresponder à tabela
+    df_cadastro = df_cadastro.rename(columns={
+        'Rank': 'rank',
+        'Nome': 'nome',
+        'Símbolo': 'simbolo',
+        'Preço (USD)': 'preco_usd',
+        'Cap. Mercado (USD)': 'cap_mercado_usd',
+        'Variação 24h (%)': 'variacao_24h'
+    })
+    insert_data(df_cadastro, 'cadastro', ['rank', 'nome', 'simbolo', 'preco_usd', 'cap_mercado_usd', 'variacao_24h'])
     
     # Obter e inserir dados de candle.py
     print("\n🕯️ Processando dados de candle.py...")
     df_candle = get_crypto_historical_data()
-    insert_candle_data(df_candle)
+    insert_data(df_candle, 'candle', ['crypto', 'date', 'priceUsd', 'time'])
     
     # Obter e inserir dados de volume.py
     print("\n💰 Processando dados de volume.py...")
     df_volume = get_crypto_data()
-    insert_volume_data(df_volume)
+    insert_data(df_volume, 'volume', [
+        'crypto', 'rank', 'symbol', 'name', 'supply', 'maxSupply', 
+        'marketCapUsd', 'volumeUsd24Hr', 'priceUsd', 
+        'changePercent24Hr', 'vwap24Hr', 'timestamp'
+    ])
     
     print("\n✅ Processo concluído com sucesso!")
 
