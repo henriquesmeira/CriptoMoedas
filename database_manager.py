@@ -101,6 +101,26 @@ def create_tables():
     finally:
         conn.close()
 
+# Função para limpar a tabela antes de inserir novos dados
+def clear_table(table_name):
+    conn = connect_db()
+    if not conn:
+        return False
+    
+    try:
+        cursor = conn.cursor()
+        # Usando TRUNCATE que é mais rápido que DELETE e reseta a sequência do ID
+        cursor.execute(f"TRUNCATE TABLE {table_name} RESTART IDENTITY;")
+        conn.commit()
+        print(f"✅ Tabela {table_name} limpa com sucesso")
+        return True
+    except Exception as e:
+        conn.rollback()
+        print(f"❌ Erro ao limpar tabela {table_name}: {e}")
+        return False
+    finally:
+        conn.close()
+
 # Função para converter tipos numpy para python nativos
 def convert_numpy_types(value):
     if pd.isna(value):
@@ -114,16 +134,24 @@ def convert_numpy_types(value):
     return value
 
 # Função para inserir dataframes no banco
-def insert_dataframe(df, table_name):
+def insert_dataframe(df, table_name, replace_data=False):
     if df is None or df.empty:
         print(f"❌ DataFrame vazio para {table_name}")
         return False
+    
+    # Verificar o número de linhas antes de inserir
+    print(f"🔍 Inserindo {len(df)} registros na tabela {table_name}")
     
     conn = connect_db()
     if not conn:
         return False
     
     try:
+        # Para cadastro e volume, limpar tabela antes de inserir
+        if replace_data:
+            if not clear_table(table_name):
+                return False
+        
         cursor = conn.cursor()
         columns = list(df.columns)
         
@@ -138,7 +166,7 @@ def insert_dataframe(df, table_name):
         
         cursor.executemany(query, data)
         conn.commit()
-        print(f"✅ {len(data)} registros inseridos em {table_name}")
+        print(f"✅ {len(data)} registros {'atualizados' if replace_data else 'inseridos'} em {table_name}")
         return True
     except Exception as e:
         conn.rollback()
@@ -186,17 +214,30 @@ def transform_candle_df(df):
 # Função para transformar o dataframe de volume
 def transform_volume_df(df):
     df = df.copy()
-    df['rank'] = pd.to_numeric(df['rank'])
-    df['supply'] = pd.to_numeric(df['supply'])
-    df['maxSupply'] = pd.to_numeric(df['maxSupply'])
-    df['marketCapUsd'] = pd.to_numeric(df['marketCapUsd'])
-    df['volumeUsd24Hr'] = pd.to_numeric(df['volumeUsd24Hr'])
-    df['priceUsd'] = pd.to_numeric(df['priceUsd'])
-    df['changePercent24Hr'] = pd.to_numeric(df['changePercent24Hr'])
-    df['vwap24Hr'] = pd.to_numeric(df['vwap24Hr'])
-    df['timestamp'] = pd.to_datetime(df['timestamp'])
     
-    return df.rename(columns={
+    # Verificar tamanho do DataFrame original
+    print(f"🔍 Volume: DataFrame original tem {len(df)} registros")
+    
+    # Garantir que não há valores nulos em colunas obrigatórias
+    if 'symbol' in df.columns and 'name' in df.columns:
+        df_filtered = df.dropna(subset=['symbol', 'name'])
+        if len(df_filtered) != len(df):
+            print(f"⚠️ Removidos {len(df) - len(df_filtered)} registros com valores nulos em symbol ou name")
+        df = df_filtered
+    
+    # Conversões seguras com tratamento para valores nulos
+    df['rank'] = pd.to_numeric(df['rank'], errors='coerce')
+    df['supply'] = pd.to_numeric(df['supply'], errors='coerce').round(2)
+    df['maxSupply'] = pd.to_numeric(df['maxSupply'], errors='coerce').round(2)
+    df['marketCapUsd'] = pd.to_numeric(df['marketCapUsd'], errors='coerce')
+    df['volumeUsd24Hr'] = pd.to_numeric(df['volumeUsd24Hr'], errors='coerce').round(2)
+    df['priceUsd'] = pd.to_numeric(df['priceUsd'], errors='coerce')
+    df['changePercent24Hr'] = pd.to_numeric(df['changePercent24Hr'], errors='coerce')
+    df['vwap24Hr'] = pd.to_numeric(df['vwap24Hr'], errors='coerce')
+    df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
+    
+    # Renomear colunas
+    renamed_df = df.rename(columns={
         'marketCapUsd': 'market_cap_usd',
         'volumeUsd24Hr': 'volume_24h',
         'priceUsd': 'price_usd',
@@ -204,6 +245,9 @@ def transform_volume_df(df):
         'vwap24Hr': 'vwap_24h',
         'maxSupply': 'max_supply'
     })
+    
+    print(f"🔍 Volume: DataFrame após transformação tem {len(renamed_df)} registros")
+    return renamed_df
 
 # Função principal do ETL
 def run_etl():
@@ -218,7 +262,16 @@ def run_etl():
     
     # Obter dataframes direto das funções importadas
     try:
-        # 1. Historicocriptos
+        # 1. Volume (com substituição de dados)
+        print("📊 Processando volume...")
+        volume_df = get_crypto_data()
+        if volume_df is not None and not volume_df.empty:
+            transformed_df = transform_volume_df(volume_df)
+            insert_dataframe(transformed_df, 'volume', replace_data=True)
+        else:
+            print("⚠️ Sem dados para volume")
+        
+        # 2. Historicocriptos
         print("📈 Processando historicocriptos...")
         historico_df = get_historico_data()
         if historico_df is not None and not historico_df.empty:
@@ -227,16 +280,16 @@ def run_etl():
         else:
             print("⚠️ Sem dados para historicocriptos")
         
-        # 2. Cadastro
+        # 3. Cadastro (com substituição de dados)
         print("📋 Processando cadastro...")
-        cadastro_df = get_top_cryptocurrencies(10)  # Pegando top 10 criptomoedas
+        cadastro_df = get_top_cryptocurrencies(5)  # Pegando top 10 criptomoedas
         if cadastro_df is not None and not cadastro_df.empty:
             transformed_df = transform_cadastro_df(cadastro_df)
-            insert_dataframe(transformed_df, 'cadastro')
+            insert_dataframe(transformed_df, 'cadastro', replace_data=True)
         else:
             print("⚠️ Sem dados para cadastro")
         
-        # 3. Candle
+        # 4. Candle
         print("🕯️ Processando candle...")
         candle_df = get_crypto_historical_data()
         if candle_df is not None and not candle_df.empty:
@@ -245,19 +298,12 @@ def run_etl():
         else:
             print("⚠️ Sem dados para candle")
         
-        # 4. Volume
-        print("📊 Processando volume...")
-        volume_df = get_crypto_data()
-        if volume_df is not None and not volume_df.empty:
-            transformed_df = transform_volume_df(volume_df)
-            insert_dataframe(transformed_df, 'volume')
-        else:
-            print("⚠️ Sem dados para volume")
-        
         print("🎉 ETL concluído com sucesso!")
         
     except Exception as e:
         print(f"❌ Erro durante o ETL: {e}")
+        import traceback
+        print(f"❌ Traceback completo: {traceback.format_exc()}")
 
 if __name__ == "__main__":
     run_etl()

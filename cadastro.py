@@ -3,7 +3,7 @@ import pandas as pd
 import time
 import random
 
-def get_top_cryptocurrencies(limit=5, max_retries=3, base_delay=2):
+def get_top_cryptocurrencies(limit=6, max_retries=3, base_delay=2):
     """
     Recupera as principais criptomoedas em termos de capitalização de mercado.
     

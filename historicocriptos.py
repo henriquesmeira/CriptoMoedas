@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 # Configuração rápida
 load_dotenv()
 API_KEY = os.getenv("COINCAP_API_KEY")
-CRYPTO_IDS = ["bitcoin", "ethereum", "tether", "xrp", "binance-coin"]
+CRYPTO_IDS = ["bitcoin", "ethereum", "xrp", "binance-coin"]
 
 def fetch_crypto_history(crypto_id):
     """Recupera dados históricos de criptomoedas de forma eficiente."""
