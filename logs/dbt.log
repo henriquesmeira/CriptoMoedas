@@ -357,3 +357,71 @@ https://docs.getdbt.com/docs/configure-your-profile
 [0m15:50:16.185403 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D09C670290>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D09C70A810>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D0967326D0>]}
 [0m15:50:16.185403 [debug] [MainThread]: Flushing usage events
 [0m15:50:16.792961 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:43:12.092928 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002515D8A5050>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002515F393750>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002515F28EE90>]}
+
+
+============================== 15:43:12.098874 | 3f7498ec-a07c-43ba-bb94-7c9db2accdf5 ==============================
+[0m15:43:12.098874 [info ] [MainThread]: Running with dbt=1.9.3
+[0m15:43:12.100448 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': 'c:\\Users\\henri\\OneDrive\\Área de Trabalho\\CriptoMoedas', 'debug': 'False', 'version_check': 'True', 'log_path': 'c:\\Users\\henri\\OneDrive\\Área de Trabalho\\CriptoMoedas\\logs', 'fail_fast': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'static_parser': 'True', 'invocation_command': 'dbt ', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m15:43:12.241092 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '3f7498ec-a07c-43ba-bb94-7c9db2accdf5', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002515F3F0550>]}
+[0m15:43:12.272288 [info ] [MainThread]: Warning: No packages were found in packages.yml
+[0m15:43:12.273873 [info ] [MainThread]: Warning: No packages were found in packages.yml
+[0m15:43:12.276558 [debug] [MainThread]: Command `cli deps` succeeded at 15:43:12.276558 after 0.29 seconds
+[0m15:43:12.277632 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002515F3E1C50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002515F429090>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002515D7F3390>]}
+[0m15:43:12.278699 [debug] [MainThread]: Flushing usage events
+[0m15:43:12.847031 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:43:26.613732 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002A55B995990>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002A55B9E5990>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002A55B9E78D0>]}
+
+
+============================== 15:43:26.619192 | 651066ee-24ad-41a3-b97a-d04ac56ca45e ==============================
+[0m15:43:26.619192 [info ] [MainThread]: Running with dbt=1.9.3
+[0m15:43:26.620192 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': 'C:\\Users\\henri\\OneDrive\\Área de Trabalho\\CriptoMoedas', 'version_check': 'True', 'debug': 'False', 'log_path': 'C:\\Users\\henri\\OneDrive\\Área de Trabalho\\CriptoMoedas\\logs', 'fail_fast': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'invocation_command': 'dbt debug', 'static_parser': 'True', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m15:43:26.637478 [info ] [MainThread]: dbt version: 1.9.3
+[0m15:43:26.638477 [info ] [MainThread]: python version: 3.11.9
+[0m15:43:26.639480 [info ] [MainThread]: python path: C:\Users\henri\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\python.exe
+[0m15:43:26.640483 [info ] [MainThread]: os info: Windows-10-10.0.26100-SP0
+[0m15:43:26.698033 [info ] [MainThread]: Using profiles dir at C:\Users\henri\OneDrive\Área de Trabalho\CriptoMoedas
+[0m15:43:26.699033 [info ] [MainThread]: Using profiles.yml file at C:\Users\henri\OneDrive\Área de Trabalho\CriptoMoedas\profiles.yml
+[0m15:43:26.700034 [info ] [MainThread]: Using dbt_project.yml file at C:\Users\henri\OneDrive\Área de Trabalho\CriptoMoedas\dbt_project.yml
+[0m15:43:26.701038 [info ] [MainThread]: adapter type: postgres
+[0m15:43:26.702036 [info ] [MainThread]: adapter version: 1.9.0
+[0m15:43:26.796014 [info ] [MainThread]: Configuration:
+[0m15:43:26.796522 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m15:43:26.797527 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m15:43:26.797527 [info ] [MainThread]: Required dependencies:
+[0m15:43:26.797527 [debug] [MainThread]: Executing "git --help"
+[0m15:43:26.832980 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m15:43:26.834010 [debug] [MainThread]: STDERR: "b''"
+[0m15:43:26.834010 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m15:43:26.834980 [info ] [MainThread]: Connection:
+[0m15:43:26.835981 [info ] [MainThread]:   host: localhost
+[0m15:43:26.835981 [info ] [MainThread]:   port: 5432
+[0m15:43:26.837453 [info ] [MainThread]:   user: postgres
+[0m15:43:26.838451 [info ] [MainThread]:   database: criptmoedas
+[0m15:43:26.839451 [info ] [MainThread]:   schema: public
+[0m15:43:26.840454 [info ] [MainThread]:   connect_timeout: 10
+[0m15:43:26.840454 [info ] [MainThread]:   role: None
+[0m15:43:26.842450 [info ] [MainThread]:   search_path: None
+[0m15:43:26.842450 [info ] [MainThread]:   keepalives_idle: 0
+[0m15:43:26.843454 [info ] [MainThread]:   sslmode: None
+[0m15:43:26.844451 [info ] [MainThread]:   sslcert: None
+[0m15:43:26.844451 [info ] [MainThread]:   sslkey: None
+[0m15:43:26.846567 [info ] [MainThread]:   sslrootcert: None
+[0m15:43:26.847574 [info ] [MainThread]:   application_name: dbt
+[0m15:43:26.848576 [info ] [MainThread]:   retries: 1
+[0m15:43:26.849580 [info ] [MainThread]: Registered adapter: postgres=1.9.0
+[0m15:43:27.167972 [debug] [MainThread]: Acquiring new postgres connection 'debug'
+[0m15:43:27.242136 [debug] [MainThread]: Using postgres connection "debug"
+[0m15:43:27.242136 [debug] [MainThread]: On debug: select 1 as id
+[0m15:43:27.242136 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m15:43:27.266021 [debug] [MainThread]: SQL status: SELECT 1 in 0.024 seconds
+[0m15:43:27.268052 [debug] [MainThread]: On debug: Close
+[0m15:43:27.268052 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m15:43:27.268052 [info ] [MainThread]: [32mAll checks passed![0m
+[0m15:43:27.270060 [debug] [MainThread]: Command `dbt debug` succeeded at 15:43:27.270060 after 0.74 seconds
+[0m15:43:27.270060 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m15:43:27.272070 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002A555A94610>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002A55BD7B810>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002A555BF6590>]}
+[0m15:43:27.272070 [debug] [MainThread]: Flushing usage events
+[0m15:43:27.834525 [debug] [MainThread]: An error was encountered while trying to flush usage events

@@ -2,7 +2,10 @@ FROM python:3.9
 
 WORKDIR /app
 
+# Instala dependências básicas + driver do banco de dados
 RUN pip install --upgrade pip && \
-    pip install dbt-core dbt-postgres  # Troca pelo adaptador que precisares
+    pip install psycopg2-binary sqlalchemy pandas
 
-CMD ["tail", "-f", "/dev/null"]
+COPY . .
+
+CMD ["python", "main.py"]
