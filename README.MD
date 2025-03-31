@@ -51,6 +51,9 @@ Para acessar as informações gerados no banco de dados foi criado um relatorio 
 - Volume das ultimas 24 horas.
 - Quantidade de criptos em mercado
 
+
+Tambem foi criado um frame por meio do Figma para implementar o visual do relatório
+
 [**Clique aqui para acessar o relatório no Power BI**](https://app.powerbi.com/view?r=eyJrIjoiOTc0YjUyZGYtNGNmOC00NmI2LTkyMWUtYzllNGNiN2Q1YmY1IiwidCI6IjcyZWIyZTFhLTU1NzQtNDE5MC1iYmI5LTFhYzBhN2UzMGQ4ZiJ9)
 
 
