@@ -29,7 +29,6 @@ def main():
     # Scripts da API que precisam de intervalo entre execuções
     api_scripts = [
         "cadastro.py",
-        "candle.py",
         "historicocriptos.py",
         "volume.py"
     ]
