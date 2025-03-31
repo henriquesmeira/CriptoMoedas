@@ -17,7 +17,9 @@ Foi utilizada a API :
 O projeto se encontra modularizado , onde são dividos em subdivisões de códigos , garantindo que haja uma melhor manutenção de códigos e processamento de informações.
 
 1 - Os arquivos **cadastro** , **historicocriptos** , **volume**, obtem os registros de dados.
+
 2 - O arquivo **database_manager** gerencia os dados criando as tabelas no banco , e posteriormente fazendo o etl de dados e inserindo os dados nas tabelas correspondente no banco.
+
 3- O arquivo **Main** , faz o controle de execução do fluxo da pipeline de dados , onde os arquivos de extração são executados primeiramente , depois o arquivo de gerenciamento do banco. Além de fazer uma pausa de execução entre os arquivos de extração complementando um pouco mais a espera de Rate Limit da API.
 
 ## Banco de Dados
