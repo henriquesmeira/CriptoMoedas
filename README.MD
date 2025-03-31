@@ -14,6 +14,12 @@ Foi utilizada a API :
 - **volume.py**: Realiza a requisição à API para obter o volume de transações das criptomoedas e cria um DataFrame com os dados.
 - **database_manager.py**: Gerencia o banco de dados PostgreSQL, inserindo os dados obtidos das APIs nas tabelas correspondentes.
 
+O projeto se encontra modularizado , onde são dividos em subdivisões de códigos , garantindo que haja uma melhor manutenção de códigos e processamento de informações.
+
+1 - Os arquivos **cadastro** , **historicocriptos** , **volume**, obtem os registros de dados.
+2 - O arquivo **database_manager** gerencia os dados criando as tabelas no banco , e posteriormente fazendo o etl de dados e inserindo os dados nas tabelas correspondente no banco.
+3- O arquivo **Main** , faz o controle de execução do fluxo da pipeline de dados , onde os arquivos de extração são executados primeiramente , depois o arquivo de gerenciamento do banco. Além de fazer uma pausa de execução entre os arquivos de extração complementando um pouco mais a espera de Rate Limit da API.
+
 ## Banco de Dados
 
 O banco de dados é criado e gerido via Docker, utilizando uma instância do PostgreSQL. As credenciais necessárias para a API e o banco de dados são armazenadas em um arquivo `.env`.
