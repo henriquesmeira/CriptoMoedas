@@ -51,6 +51,31 @@ Para acessar as informações gerados no banco de dados foi criado um relatorio 
 - Volume das ultimas 24 horas.
 - Quantidade de criptos em mercado
 
+Análises Geradas :
+
+1 - Imagem 1 :
+
+Gráficos Gerais de Acompanhemento de Valor Médio da Criptomoeda , Data de Referencia de ultimo dia de dados gerados , 
+Valor Máximo e Minimo Atingido pela Moeda. Valor do Máximo e Mínimo ficam zerados , quando não existe nenhum filtro de seleção da criptomoeda.
+
+
+2 - Imagem 2 :
+
+Acompanhemento de Métricas atuais das criptomoedas , com a quantidade de moedas disponiveis em mercado , valor das moedas no mercado , variação das últimas 24 horas , volume das ultimas 24 horas e preço atualizado.
+
+
+3 - Imagem 3 :
+
+Valores de fechamento de mercado para a criptomoeda , sendo possível acompanhar os dados dos últimos 2 anos para todas as criptomoedas inseridas no modelo de dados.
+
+
+4 - Imagem 4
+
+Acompanhamento de preço médio de Bitcoin x Ethereum para o período selecionado no filtro de dados.
+
+
+
+
 
 Tambem foi criado um frame por meio do Figma para implementar o visual do relatório
 
