@@ -82,7 +82,7 @@ Acompanhamento do valor de fechamento do mercado, possível ver os valores diár
 Gráfico de comparação de dados de valores entre as moedas Bitcoin e Ethereum.
 
 ### 5. Relacionamento de Dados
-![Relacionamento de Dados Feito no Power BI](Imagens/Relacionamento de dados.jpg)
+![Relacionamento de Dados Feito no Power BI](Imagens/Relacionamento%20de%20dados.jpg)
 
 Foi utilizada a estrutura de dados fornecida pela tabela do próprio banco de dados. Além disso, foi criada uma tabela Calendário dentro do modelo do Power BI para fazer análises relacionadas às datas, por meio da linguagem M.
 
