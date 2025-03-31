@@ -37,41 +37,36 @@ O arquivo `profiles.yml` contém as configurações necessárias para conectar o
   - pandas
   - requests
   - psycopg2 (para interação com o PostgreSQL)
-  - os 
+  - os
 
+## Relatório Power BI
 
-## Relatorio Power BI
+Para acessar as informações geradas no banco de dados foi criado um relatório simples no Power BI para acompanhamento de algumas métricas, como:
 
-Para acessar as informações gerados no banco de dados foi criado um relatorio simples no power bi , para acompanhamento de algumas métricas, como :
-
-- Valor Maximos e Minimos atingidos pela Moeda em um periodo de data selecionado pelo usuário
-- Valor médio da moeda para o periodo analisado
-- Valor em $ disponivel no mercado para as moedas analisas
-- variação em % nas ultimas 24 horas
-- Volume das ultimas 24 horas.
+- Valor máximo e mínimo atingidos pela moeda em um período de data selecionado pelo usuário
+- Valor médio da moeda para o período analisado
+- Valor em $ disponível no mercado para as moedas analisadas
+- Variação em % nas últimas 24 horas
+- Volume das últimas 24 horas.
 - Quantidade de criptos em mercado
 
 ## Análises Geradas:
 
 ### 1. Gráficos Gerais
 ![Gráficos Gerais](Imagens/Indicadores%20Gerais.jpg)
-Aqui podemos algumas métricas gerais , como o valor máximo e minimo atingido pela moeda para o periodo selecionado no filtro de dados , quando não existe nenhum filtro de moeda selecionado o valor fica como 0.
+Aqui podemos ver algumas métricas gerais, como o valor máximo e mínimo atingido pela moeda para o período selecionado no filtro de dados. Quando não existe nenhum filtro de moeda selecionado, o valor fica como 0.
 
 ### 2. Métricas Atuais
 ![Métricas Atuais](Imagens/Metricas%20Atuais%20das%20criptos.jpg)
-
-Acompanhamento de valores atuais da Moeda , como Preço , Volume de Moedas no Mercado , Valor em $ presente no mercado e Variação das Ultimas 24 horas.
+Acompanhamento de valores atuais da moeda, como preço, volume de moedas no mercado, valor em $ presente no mercado e variação das últimas 24 horas.
 
 ### 3. Fechamento de Mercado
 ![Fechamento de Mercado](Imagens/valor%20de%20fechamento%20diario%20cripto.jpg)
-
-Acompanhemto do valor de fechamento do mercado , possível ver os valores diários das moedas para os ultimos 2 anos.
+Acompanhamento do valor de fechamento do mercado, possível ver os valores diários das moedas para os últimos 2 anos.
 
 ### 4. Comparação Bitcoin x Ethereum
 ![Comparação Bitcoin x Ethereum](Imagens/Preco%20Medio%20Diario.jpg)
-
-Gráfico de Comparação de Dados de valores entre as Moedas Bitcoin e Ethereum
-
+Gráfico de comparação de dados de valores entre as moedas Bitcoin e Ethereum.
 
 ### 5. Relacionamento de Dados
 ![Relacionamento de Dados Feito no Power BI](Imagens/Relacionamento%20de%20dados.jpg)
@@ -101,33 +96,14 @@ let
     CalendarioCompleto1 = Table.AddColumn(CalendarioCompleto, "Mês", each Date.Month([Data]), Int64.Type),
     CalendarioCompleto2 = Table.AddColumn(CalendarioCompleto1, "Dia", each Date.Day([Data]), Int64.Type),
     CalendarioCompleto3 = Table.AddColumn(CalendarioCompleto2, "NomeMês", each Date.MonthName([Data]), type text),
-    CalendarioCompleto4 = Table.AddColumn(CalendarioCompleto3, "DiaSemana", each Date.DayOfWeek([Data]), Int64.Type),
-    CalendarioCompleto5 = Table.AddColumn(CalendarioCompleto4, "NomeDia", each Date.DayOfWeekName([Data]), type text),
-    CalendarioCompleto6 = Table.AddColumn(CalendarioCompleto5, "Trimestre", each Date.QuarterOfYear([Data]), Int64.Type),
-    CalendarioCompleto7 = Table.AddColumn(CalendarioCompleto6, "SemanaAno", each Date.WeekOfYear([Data]), Int64.Type),
-    CalendarioCompleto8 = Table.AddColumn(CalendarioCompleto7, "DiaAno", each Date.DayOfYear([Data]), Int64.Type),
-    CalendarioCompleto9 = Table.AddColumn(CalendarioCompleto8, "MêsAno", each Text.Combine({Date.MonthName([Data]), " ", Text.From(Date.Year([Data]))}), type text),
-    #"Tipo Alterado" = Table.TransformColumnTypes(CalendarioCompleto9,{{"Data", type date}})
+    "#Tipo Alterado" = Table.TransformColumnTypes(CalendarioCompleto3,{{"Data", type date}})
 in
-    #"Tipo Alterado"
+    "#Tipo Alterado"
+```
 
-
-
-
-
-
-
-
-
-Tambem foi criado um frame por meio do Figma para implementar o visual do relatório
+Também foi criado um frame por meio do Figma para implementar o visual do relatório.
 
 [**Clique aqui para acessar o relatório no Power BI**](https://app.powerbi.com/view?r=eyJrIjoiOTc0YjUyZGYtNGNmOC00NmI2LTkyMWUtYzllNGNiN2Q1YmY1IiwidCI6IjcyZWIyZTFhLTU1NzQtNDE5MC1iYmI5LTFhYzBhN2UzMGQ4ZiJ9)
-
-
-
-
-
-
 
 ## Licença
 
