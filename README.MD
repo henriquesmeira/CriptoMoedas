@@ -2,6 +2,11 @@
 
 Este projeto tem como objetivo realizar requisições à API de criptomoedas, processar os dados recebidos, e armazená-los em um banco de dados PostgreSQL. O banco de dados é gerenciado via Docker.
 
+Foi utilizada a API :
+
+**Clique aqui para acessar a documentação da API**
+ (https://docs.coincap.io/)
+
 ## Estrutura do Projeto
 
 - **cadastro.py**: Faz a requisição à API de cadastro de criptomoedas, obtém os dados e gera um DataFrame com as informações relevantes.
